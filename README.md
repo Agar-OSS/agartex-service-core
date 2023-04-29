@@ -10,3 +10,7 @@ Before you start:
 3. Start app with `docker-compose up`
 
 Infrastructure is under refactoring and some of the information may be outdated.
+
+## Infrastructure overview
+
+![Infrastructure overview](design/microservices.png)
