@@ -1,0 +1,37 @@
+http://localhost:3000 {
+	# Unprotected routes
+
+	@POST_users {
+		method POST
+		path /users
+	}
+	handle @POST_users {
+		reverse_proxy http://authentication:3100
+	}
+
+	@POST_sessions {
+		method POST
+		path /users
+	}
+	handle @POST_sessions {
+		reverse_proxy http://authentication:3100
+	}
+
+	# Protected routes
+
+	handle * {
+		forward_auth http://authentication:3100 {
+			uri /users
+			copy_headers X-User-Id
+		}
+
+		handle /compile {
+			reverse_proxy http://compilation:3200
+		}
+
+		handle /collaboration {
+			rewrite * /
+			reverse_proxy http://colaboration:3300
+		}
+	}
+}
