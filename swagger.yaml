@@ -1,0 +1,193 @@
+openapi: 3.0.3
+info:
+  title: Agartex Service
+  description: |-
+    This is a server for compiling Latex documents and authenticating users
+  version: 0.0.1
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: user
+    description: Operations about user
+  - name: compile
+    description: LaTeX document compilation
+paths:
+  /users:
+    post:
+      tags:
+        - user
+      summary: Register user
+      description: This will register a new user with the given email and password.
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        201:
+          description: Successfully created user
+        400:
+          description: Malformed request
+        409:
+          description: Duplicate email
+        415:
+          description: Unsupported media type
+        422:
+          description: Request body validation errors (e.g. incorrect email format, weak password)
+          content:
+            text/plain:
+              schema:
+                type: string
+  /sessions:
+    post:
+      tags:
+        - user
+      summary: Logs user into the system
+      description: |-
+        The session ID is returned in a cookie called 'RSESSID' and it must be included in authentication.
+        Required options: Secure, HttpOnly
+      operationId: loginUser
+      requestBody:
+        description: Login Credentials
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        201:
+          description: Successfully created session
+          headers:
+            Set-Cookie:
+              description: Session token
+              schema:
+                type: string
+                example: RSESSID=token_value; Secure; HttpOnly
+        400:
+          description: Malformed request body
+        401:
+          description: Authentication using supplied email and password failed
+        415:
+          description: Unsupported media type
+        422:
+          description: Request body validation errors (e.g. missing password field)
+          content:
+            text/plain:
+              schema:
+                type: string
+  /projects/{projectId}/pdf:
+    post:
+      security:
+        - session_id: []
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the affected project
+      tags:
+        - compile
+      summary: Returns the compiled PDF for a given project and compiles it if needed.
+      description: |-
+        Returns a pdf, which will be compiled if needed. Takes in options to control the compilation process.
+      operationId: compile
+      requestBody:
+        description: Compile options
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompileOptions'
+      responses:
+        200:
+          description: PDF file
+          content: 
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: Malformed request body
+        401:
+          description: Unauthorized to execute operation
+        415:
+          description: Unsupported media type
+        422:
+          description: Request validation errors (e.g. missing required fields in options)
+  /compile:
+    post:
+      tags:
+        - compile 
+      summary: Compiles the provided LaTeX text into a pdf file
+      description: |-
+        Takes in text that should be a valid LaTeX document and returns the compiled PDF.
+      operationId: simpleCompile
+      requestBody:
+        description: Document body
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        200:
+          description: PDF file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: Malformed request
+        415:
+          description: Unsupported media type
+        422:
+          description: Compilation errors
+          content:
+            text/plain:
+              schema: 
+                type: string
+
+components:
+  schemas:
+    Credentials:
+      type: object
+      properties:
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: Password1@
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: Password1@
+    CompileOptions:
+      type: object
+      properties:
+        entrypoint:
+          type: string
+          nullable: true
+          example: main.tex
+        force:
+          type: boolean
+          example: false
+        text:
+          type: string
+      required:
+        - entrypoint
+  securitySchemes:
+    session_id:
+      type: apiKey
+      in: cookie
+      name: RSESSID

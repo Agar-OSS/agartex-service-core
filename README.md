@@ -9,8 +9,6 @@ Before you start:
   * [agaross.azurecr.io/agar-oss/agartex-service](https://github.com/Agar-OSS/agartex-service)
 3. Start app with `docker-compose up`
 
-Infrastructure is under refactoring and some of the information may be outdated.
-
 ## Infrastructure overview
 
 ![Infrastructure overview](design/microservices.png)
