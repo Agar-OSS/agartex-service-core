@@ -29,6 +29,8 @@ services:
       - secrets/agartex-authentication.env
     ports:
       - 3100:3100
+    depends_on:
+      - agartex-resource-management
 
   agartex-resource-management:
     image: agaross.azurecr.io/agar-oss/agartex-resource-management:latest
@@ -37,6 +39,8 @@ services:
       - secrets/agartex-resource-management.env
     ports:
       - 3200:3200
+    depends_on:
+      - postgres
 
   agartex-compilation:
     image: agaross.azurecr.io/agar-oss/agartex-compilation:latest
@@ -45,6 +49,8 @@ services:
       - secrets/agartex-compilation.env
     ports:
       - 3300:3300
+    depends_on:
+      - agartex-resource-management
 
   agartex-collaboration:
     image: agaross.azurecr.io/agar-oss/agartex-collaboration:latest
@@ -53,6 +59,8 @@ services:
       - secrets/agartex-collaboration.env
     ports:
       - 3400:3400
+    depends_on:
+      - agartex-resource-management
       
   # Data
 
