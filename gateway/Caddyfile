@@ -38,12 +38,12 @@ http://:3000 {
 		}
 
 		handle /compile {
-			reverse_proxy http://agartex-compilation:3200
+			reverse_proxy http://agartex-compilation:3300
 		}
 
 		handle /collaboration {
 			rewrite * /
-			reverse_proxy http://agartex-colaboration:3300
+			reverse_proxy http://agartex-colaboration:3400
 		}
 
 		error * "Not found" 404
