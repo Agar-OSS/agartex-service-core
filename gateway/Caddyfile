@@ -32,7 +32,7 @@ http://:3000 {
 
 	handle * {
 		forward_auth http://agartex-authentication:3100 {
-			uri /users
+			uri /sessions
 			copy_headers X-User-Id
 		}
 
