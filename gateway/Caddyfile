@@ -9,10 +9,9 @@ http://:3000 {
 		method OPTIONS
 	}
 	header {
-		Access-Control-Allow-Origin *
+		Access-Control-Allow-Origin {$CLIENT_URL}
 		Access-Control-Allow-Credentials true
-		Access-Control-Allow-Methods *
-		Access-Control-Allow-Headers *
+		Access-Control-Allow-Headers RSESSID,Content-Type
 		defer
 	}
 	handle @OPTIONS {
