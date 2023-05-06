@@ -1,15 +1,7 @@
 version: '3.9'
 
 services:
-  postgres:
-    image: postgres:15.2
-    restart: always
-    env_file:
-      - secrets/postgres.env
-    ports:
-      - 5432:5432
-    volumes:
-      - ../data:/var/lib/postgresql/data
+  # Frontend
 
   agartex-app:
     image: agaross.azurecr.io/agar-oss/agartex-app:latest
@@ -19,11 +11,65 @@ services:
     ports:
       - 80:5000
 
-  agartex-service:
-    image: agaross.azurecr.io/agar-oss/agartex-service:latest
+  # Backend
+
+  gateway:
+    image: caddy-gateway
+    build: gateway
     restart: always
     env_file:
-      - secrets/agartex-service.env
+      - secrets/gateway.env
     ports:
       - 3000:3000
+
+  agartex-authentication:
+    image: agaross.azurecr.io/agar-oss/agartex-authentication:latest
+    restart: always
+    env_file:
+      - secrets/agartex-authentication.env
+    ports:
+      - 3100:3100
+    depends_on:
+      - agartex-resource-management
+
+  agartex-resource-management:
+    image: agaross.azurecr.io/agar-oss/agartex-resource-management:latest
+    restart: always
+    env_file:
+      - secrets/agartex-resource-management.env
+    ports:
+      - 3200:3200
+    depends_on:
+      - postgres
+
+  agartex-compilation:
+    image: agaross.azurecr.io/agar-oss/agartex-compilation:latest
+    restart: always
+    env_file:
+      - secrets/agartex-compilation.env
+    ports:
+      - 3300:3300
+    depends_on:
+      - agartex-resource-management
+
+  agartex-collaboration:
+    image: agaross.azurecr.io/agar-oss/agartex-collaboration:latest
+    restart: always
+    env_file:
+      - secrets/agartex-collaboration.env
+    ports:
+      - 3400:3400
+    depends_on:
+      - agartex-resource-management
       
+  # Data
+
+  postgres:
+    image: postgres:15.2
+    restart: always
+    env_file:
+      - secrets/postgres.env
+    ports:
+      - 5432:5432
+    volumes:
+      - ../data:/var/lib/postgresql/data

@@ -1,0 +1,51 @@
+http://:3000 {
+	log {
+		level INFO
+	}
+
+	# CORS
+
+	@OPTIONS {
+		method OPTIONS
+	}
+	header {
+		Access-Control-Allow-Origin {$CLIENT_URL}
+		Access-Control-Allow-Credentials true
+		Access-Control-Allow-Headers Content-Type
+		Access-Control-Allow-Methods GET,POST,DELETE
+		defer
+	}
+	handle @OPTIONS {
+		respond 204
+	}
+
+	# Unprotected routes
+
+	handle /users {
+		reverse_proxy http://agartex-authentication:3100
+	}
+
+	handle /sessions {
+		reverse_proxy http://agartex-authentication:3100
+	}
+
+	# Protected routes
+
+	handle * {
+		forward_auth http://agartex-authentication:3100 {
+			uri /sessions
+			copy_headers X-User-Id
+		}
+
+		handle /compile {
+			reverse_proxy http://agartex-compilation:3300
+		}
+
+		handle /collaboration {
+			rewrite * /
+			reverse_proxy http://agartex-colaboration:3400
+		}
+
+		error * "Not found" 404
+	}
+}

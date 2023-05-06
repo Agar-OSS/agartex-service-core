@@ -6,7 +6,14 @@ Before you start:
 1. Copy `example-secrets` to `secrets` and fill them with your configuration
 2. Pull or build Docker images:
   * [agaross.azurecr.io/agar-oss/agartex-app](https://github.com/Agar-OSS/agartex-app)
-  * [agaross.azurecr.io/agar-oss/agartex-service](https://github.com/Agar-OSS/agartex-service)
+  * [agaross.azurecr.io/agar-oss/agartex-authentication](https://github.com/Agar-OSS/agartex-authentication)
+  * [agaross.azurecr.io/agar-oss/agartex-resource-management](https://github.com/Agar-OSS/agartex-resource-management)
+  * [agaross.azurecr.io/agar-oss/agartex-compilation](https://github.com/Agar-OSS/agartex-compilation)
+  * [agaross.azurecr.io/agar-oss/agartex-collaboration](https://github.com/Agar-OSS/agartex-collaboration)
 3. Start app with `docker-compose up`
 
-Infrastructure is under refactoring and some of the information may be outdated.
+It is advised to run it in background (e.g. using `screen`).
+
+## Infrastructure overview
+
+![Infrastructure overview](design/microservices.png)
