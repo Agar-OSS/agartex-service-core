@@ -12,8 +12,8 @@ def deploy(name: str):
     logging.info(f'Re-deploy {name}')
     os.system(f'''
 docker login -u cd-tools -p {DOCKER_PASSWORD} agaross.azurecr.io
-docker-compose pull {name}
-docker-compose up -d {name}
+docker compose pull {name}
+docker compose up -d {name}
     ''')
 
 deployQueue = Queue()
@@ -48,9 +48,9 @@ if __name__ == '__main__':
     # Start system
     os.system(f'''
 docker login -u cd-tools -p {DOCKER_PASSWORD} agaross.azurecr.io
-docker-compose pull
-docker-compose down
-docker-compose up -d
+docker compose pull
+docker compose down
+docker compose up -d
     ''')
 
     Thread(target=worker, daemon=True).start()
