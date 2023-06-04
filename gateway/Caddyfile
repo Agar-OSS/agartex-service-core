@@ -12,7 +12,7 @@ http://:3000 {
 		Access-Control-Allow-Origin {$CLIENT_URL}
 		Access-Control-Allow-Credentials true
 		Access-Control-Allow-Headers Content-Type
-		Access-Control-Allow-Methods GET,POST,DELETE
+		Access-Control-Allow-Methods GET,POST,DELETE,PUT
 		defer
 	}
 	handle @OPTIONS {
@@ -42,7 +42,6 @@ http://:3000 {
 		}
 
 		handle /collaboration {
-			rewrite * /
 			reverse_proxy http://agartex-colaboration:3400
 		}
 
