@@ -9,7 +9,7 @@ http://:3000 {
 		method OPTIONS
 	}
 	header {
-		Access-Control-Allow-Origin {$CLIENT_URL}
+		Access-Control-Allow-Origin {http.request.header.Origin}
 		Access-Control-Allow-Credentials true
 		Access-Control-Allow-Headers Content-Type
 		Access-Control-Allow-Methods GET,POST,DELETE,PUT
@@ -21,11 +21,21 @@ http://:3000 {
 
 	# Unprotected routes
 
-	handle /users {
+	@USERS {
+		method POST
+		path /users
+	}
+
+	@SESSIONS {
+		method POST DELETE
+		path /sessions
+	}
+
+	handle @USERS {
 		reverse_proxy http://agartex-authentication:3100
 	}
 
-	handle /sessions {
+	handle @SESSIONS {
 		reverse_proxy http://agartex-authentication:3100
 	}
 
@@ -39,6 +49,10 @@ http://:3000 {
 
 		handle /compile {
 			reverse_proxy http://agartex-compilation:3300
+		}
+
+		handle /projects {
+			reverse_proxy http://agartex-resource-management:3200
 		}
 
 		handle /collaboration {
