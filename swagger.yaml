@@ -90,7 +90,9 @@ paths:
       responses:
         204:
           description: Successfully deleted session
-        400:
+        401:
+          description: Missing session token
+        422:
           description: Malformed request
   /compile:
     post:
