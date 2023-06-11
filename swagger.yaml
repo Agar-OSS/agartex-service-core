@@ -9,34 +9,14 @@ servers:
 tags:
   - name: user
     description: Operations about user
-  - name: compile
-    description: LaTeX document compilation
   - name: auth
     description: User authentication utilities
+  - name: compile
+    description: LaTeX document compilation
   - name: projects
     description: Operations about projects
 paths:
   /users:
-    get:
-      summary: Gets the user associated with the given sessionId in RSESSID cookie
-      tags:
-        - auth
-      security:
-        - session_id: []
-      operationId: verify
-      responses:
-        200:
-          description: Adds user ID to headers
-          headers:
-            X-User-Id:
-              description: Authenticated User ID
-              schema:
-                type: integer
-                example: 1234
-        400:
-          description: Malformed request
-        401:
-          description: Could not verify the given session ID
     post:
       tags:
         - user
@@ -67,7 +47,7 @@ paths:
   /sessions:
     post:
       tags:
-        - user
+        - auth
       summary: Logs user into the system
       description: |-
         The session ID is returned in a cookie called 'RSESSID' and it must be included in authentication.
@@ -100,6 +80,22 @@ paths:
             text/plain:
               schema:
                 type: string
+    delete:
+      tags:
+        - auth
+      summary: Delete session
+      description: Deletes the current session
+      security:
+        - session_id: []
+      responses:
+        204:
+          description: Successfully deleted session
+        400:
+          description: Malformed request
+        401:
+          description: Missing session token
+        422:
+          description: Incorrect token (e.g. too short)
   /compile:
     post:
       tags:

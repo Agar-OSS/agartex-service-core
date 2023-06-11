@@ -39,6 +39,8 @@ services:
       - secrets/agartex-resource-management.env
     ports:
       - 3200:3200
+    volumes:
+      - ../blobs:/app/blobs
     depends_on:
       - postgres
 
