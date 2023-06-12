@@ -1,5 +1,9 @@
 version: '3.9'
 
+x-var: &TLS_VOLUME
+  # Change to actual dir with certificates
+  ../.certs:/config
+
 services:
   # Frontend
 
@@ -21,6 +25,8 @@ services:
       - secrets/gateway.env
     ports:
       - 3000:3000
+    volumes:
+      - *TLS_VOLUME
 
   agartex-authentication:
     image: agaross.azurecr.io/agar-oss/agartex-authentication:latest
