@@ -1,7 +1,11 @@
-http://:3000 {
+{$SERVER_URL}:3000 {
 	log {
 		level INFO
 	}
+
+	# TLS
+
+	tls {$TLS_CONFIG}
 
 	# CORS
 
