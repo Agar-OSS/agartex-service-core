@@ -1,9 +1,5 @@
 version: '3.9'
 
-x-var: &TLS_VOLUME
-  # Change to actual dir with certificates
-  ../.certs:/config
-
 services:
   # Frontend
 
@@ -13,7 +9,7 @@ services:
     env_file:
       - secrets/agartex-app.env
     ports:
-      - 80:5000
+      - 8080:5000
 
   # Backend
 
@@ -26,7 +22,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - *TLS_VOLUME
+      - ${TLS_CERT_PATH:-./mock-certs/mock-cert.pem}:/config/fullchain.pem
+      - ${TLS_KEY_PATH:-./mock-certs/mock-key.pem}:/config/privkey.pem
 
   agartex-authentication:
     image: agaross.azurecr.io/agar-oss/agartex-authentication:latest

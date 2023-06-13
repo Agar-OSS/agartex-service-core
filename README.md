@@ -11,6 +11,7 @@ Before you start:
   * [agaross.azurecr.io/agar-oss/agartex-compilation](https://github.com/Agar-OSS/agartex-compilation)
   * [agaross.azurecr.io/agar-oss/agartex-collaboration](https://github.com/Agar-OSS/agartex-collaboration)
 3. Start app with `docker-compose up`
+4. [optional] If you want to enable TLS, copy `.envExample` to `.env` and set path to your certificates
 
 It is advised to run it in background (e.g. using `screen`).
 
