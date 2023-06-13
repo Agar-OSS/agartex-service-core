@@ -48,6 +48,7 @@ if __name__ == '__main__':
     # Start system
     os.system(f'''
 docker login -u cd-tools -p {DOCKER_PASSWORD} agaross.azurecr.io
+docker compose build
 docker compose pull
 docker compose down
 docker compose up -d
