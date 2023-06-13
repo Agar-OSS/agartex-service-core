@@ -10,6 +10,7 @@ services:
       - secrets/agartex-app.env
     ports:
       - 80:5000
+      - 443:5000
     volumes:
       - ${TLS_CERT_PATH:-./mock-certs/mock-cert.pem}:/config/cert.pem
       - ${TLS_KEY_PATH:-./mock-certs/mock-key.pem}:/config/key.pem
