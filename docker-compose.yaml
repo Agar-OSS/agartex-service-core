@@ -10,6 +10,10 @@ services:
       - secrets/agartex-app.env
     ports:
       - 80:5000
+      - 443:5000
+    volumes:
+      - ${TLS_CERT_PATH:-./mock-certs/mock-cert.pem}:/config/cert.pem
+      - ${TLS_KEY_PATH:-./mock-certs/mock-key.pem}:/config/key.pem
 
   # Backend
 
@@ -21,6 +25,9 @@ services:
       - secrets/gateway.env
     ports:
       - 3000:3000
+    volumes:
+      - ${TLS_CERT_PATH:-./mock-certs/mock-cert.pem}:/config/cert.pem
+      - ${TLS_KEY_PATH:-./mock-certs/mock-key.pem}:/config/key.pem
 
   agartex-authentication:
     image: agaross.azurecr.io/agar-oss/agartex-authentication:latest
