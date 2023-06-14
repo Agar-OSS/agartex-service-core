@@ -51,6 +51,8 @@ services:
       - secrets/agartex-compilation.env
     ports:
       - 3300:3300
+    volumes:
+      - ../blobs:/app/blobs
     depends_on:
       - agartex-resource-management
 
