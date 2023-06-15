@@ -271,7 +271,7 @@ paths:
         422:
           description: Missing fields
   /projects/{projectId}/pdf:
-    put:
+    post:
       tags:
         - projects
         - compile
