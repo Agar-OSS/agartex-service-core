@@ -55,7 +55,7 @@
 			reverse_proxy http://agartex-compilation:3300
 		}
 
-		handle /projects {
+		handle /projects* {
 			reverse_proxy http://agartex-resource-management:3200
 		}
 
