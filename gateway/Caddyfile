@@ -13,7 +13,7 @@
 		method OPTIONS
 	}
 	header {
-		Access-Control-Allow-Origin *
+		Access-Control-Allow-Origin {http.request.header.Origin}
 		Access-Control-Allow-Credentials true
 		Access-Control-Allow-Headers Content-Type
 		Access-Control-Allow-Methods GET,POST,DELETE,PUT
