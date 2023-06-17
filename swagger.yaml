@@ -419,6 +419,10 @@ components:
           type: integer
           format: int64
           example: 1
+        owner_id:
+          type: ineger
+          format: int64
+          example: 1
         owner_email:
           type: string
           format: email
