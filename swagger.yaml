@@ -32,7 +32,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Credentials'
+              $ref: "#/components/schemas/Credentials"
       responses:
         201:
           description: Successfully created user
@@ -62,7 +62,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Credentials'
+              $ref: "#/components/schemas/Credentials"
       responses:
         201:
           description: Successfully created session
@@ -103,7 +103,7 @@ paths:
   /compile:
     post:
       tags:
-        - compile 
+        - compile
       summary: Compiles the provided LaTeX text into a pdf file
       description: |-
         Takes in text that should be a valid LaTeX document and returns the compiled PDF.
@@ -132,19 +132,19 @@ paths:
           description: Compilation errors
           content:
             text/plain:
-              schema: 
+              schema:
                 type: string
   /projects:
     get:
       tags:
-        - projects 
+        - projects
       summary: Get project list
-      description: Returns a list of project for a specific user 
+      description: Returns a list of project for a specific user
       security:
         - session_id: []
       responses:
         200:
-          description: Projects list 
+          description: Projects list
           content:
             application/json:
               schema:
@@ -175,7 +175,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Project"
         400:
-          description: Malformed Request 
+          description: Malformed Request
         401:
           description: Unauthorized
         415:
@@ -207,7 +207,7 @@ paths:
                 \]
                 \end{document}
         400:
-          description: Malformed Request 
+          description: Malformed Request
         401:
           description: Unauthorized
         404:
@@ -237,11 +237,11 @@ paths:
         201:
           description: Project updated successfully
         400:
-          description: Malformed Request 
+          description: Malformed Request
         401:
           description: Unauthorized
         404:
-          description: No project found 
+          description: No project found
         415:
           description: Wrong content type (should be plain text)
         422:
@@ -263,7 +263,7 @@ paths:
         204:
           description: Project updated successfully
         400:
-          description: Malformed Request 
+          description: Malformed Request
         401:
           description: Unauthorized
         415:
@@ -289,7 +289,7 @@ paths:
           description: Project updated successfully
           content:
             application/pdf:
-              schema: 
+              schema:
                 type: string
           headers:
             Content-Disposition:
@@ -297,7 +297,7 @@ paths:
                 type: string
               example: inline
         400:
-          description: Malformed Request 
+          description: Malformed Request
         401:
           description: Unauthorized
         415:
@@ -415,28 +415,33 @@ components:
     Project:
       type: object
       properties:
-        id:
+        project_id:
           type: integer
           format: int64
           example: 1
-        owner:
-          type: integer
+        owner_id:
+          type: ineger
           format: int64
+          example: 1
+        owner_email:
+          type: string
+          format: email
+          example: john@email.com
         main_document_id:
           type: integer
           format: int64
           example: 1
-        name:
+        project_name:
           type: string
           example: sample_project
         created_at:
-          type: integer
+          type: string
           format: timestamp
-          example: 1
+          example: 2023-06-17 14:23:48.458950
         last_modified:
-          type: integer
+          type: string
           format: timestamp
-          example: 1
+          example: 2023-06-17 14:23:48.458950
     ProjectMetadata:
       type: object
       properties:
