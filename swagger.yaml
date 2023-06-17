@@ -415,18 +415,19 @@ components:
     Project:
       type: object
       properties:
-        id:
+        project_id:
           type: integer
           format: int64
           example: 1
-        owner:
-          type: integer
-          format: int64
+        owner_email:
+          type: string
+          format: email
+          example: john@email.com
         main_document_id:
           type: integer
           format: int64
           example: 1
-        name:
+        project_name:
           type: string
           example: sample_project
         created_at:
