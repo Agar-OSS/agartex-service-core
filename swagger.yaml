@@ -280,9 +280,9 @@ paths:
         - session_id: []
       requestBody:
         content:
-          application/json:
+          text/plain:
             schema:
-              $ref: "#/components/schemas/ProjectMetadata"
+              type: string
       description: Returns a compiled PDF of the project and updates the project document text
       responses:
         200:

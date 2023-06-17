@@ -55,6 +55,10 @@
 			reverse_proxy http://agartex-compilation:3300
 		}
 
+		handle /projects/*/pdf {
+			reverse_proxy http://agartex-compilation:3300
+		}
+
 		handle /projects* {
 			reverse_proxy http://agartex-resource-management:3200
 		}
