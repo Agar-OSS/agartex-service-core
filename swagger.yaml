@@ -246,6 +246,55 @@ paths:
           description: Wrong content type (should be plain text)
         422:
           description: Missing fields
+  /projects/{projectId}/collaboration:
+    put:
+      tags:
+        - projects
+        - collaboration
+      summary: Creates an invite token for project sharing
+      security:
+        - user_id: []
+      requestBody:
+        conent:
+          application/json:
+            schema:
+              type: object
+      description: Creates a valid invite token
+      responses:
+        201:
+          description: Successfully created an invite token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InviteToken"
+        400:
+          description: Malformed Request
+        401:
+          description: Unauthorized
+        404:
+          description: No project found
+    post:
+      tags:
+        - projects
+        - collaboration
+      summary: Adds user to a collaboration list for a particular project
+      security:
+        - user_id: []
+      requestBody:
+        conent:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InviteToken"
+      description: Adds users to a collaboration list if the token is not expired
+      responses:
+        201:
+          description: Successfully added user to a collaboration list
+        400:
+          description: Malformed Request
+        401:
+          description: Unauthorized
+        404:
+          description: No project found
   /projects/{projectId}/metadata:
     put:
       tags:
@@ -403,6 +452,13 @@ paths:
           description: Missing paramaters
 components:
   schemas:
+    InviteToken:
+      type: object
+      properties:
+        token:
+          type: integer
+          format: int64
+          example: 128372874
     Credentials:
       type: object
       properties:
