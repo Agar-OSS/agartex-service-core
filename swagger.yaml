@@ -246,7 +246,13 @@ paths:
           description: Wrong content type (should be plain text)
         422:
           description: Missing fields
-  /projects/sharing:
+  /projects/sharing/{token}:
+    parameters:
+     - in: path
+       name: token 
+       schema:
+        $ref: "#/components/schemas/InviteToken"
+       required: true:
     post:
       tags:
         - projects
@@ -254,11 +260,6 @@ paths:
       summary: Adds user to a collaboration list for a particular project
       security:
         - user_id: []
-      requestBody:
-        conent:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/InviteToken"
       description: Adds users to a collaboration list if the token is not expired
       responses:
         201:
