@@ -251,8 +251,8 @@ paths:
      - in: path
        name: token 
        schema:
-        $ref: "#/components/schemas/InviteToken"
-       required: true:
+         type: string 
+       required: true
     post:
       tags:
         - projects
@@ -268,8 +268,6 @@ paths:
           description: Malformed Request
         401:
           description: Unauthorized
-        403:
-          description: No access to the resource 
         404:
           description: No project found
   /projects/{projectId}/sharing:
@@ -278,7 +276,7 @@ paths:
         name: projectId
         schema:
           type: integer
-        required: true:
+        required: true
     put:
       tags:
         - projects
@@ -298,9 +296,17 @@ paths:
           description: Malformed Request
         401:
           description: Unauthorized
+        403:
+          description: No access to the resource 
         404:
           description: No project found
-    /projects/{projectId}/metadata:
+  /projects/{projectId}/metadata:
+    parameters:
+      - in: path
+        name: projectId
+        schema:
+          type: integer
+        required: true
     put:
       tags:
         - projects
@@ -481,7 +487,7 @@ components:
           format: int64
           example: 1
         owner_id:
-          type: ineger
+          type: integer
           format: int64
           example: 1
         owner_email:
