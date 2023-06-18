@@ -246,33 +246,7 @@ paths:
           description: Wrong content type (should be plain text)
         422:
           description: Missing fields
-  /projects/{projectId}/collaboration:
-    put:
-      tags:
-        - projects
-        - collaboration
-      summary: Creates an invite token for project sharing
-      security:
-        - user_id: []
-      requestBody:
-        conent:
-          application/json:
-            schema:
-              type: object
-      description: Creates a valid invite token
-      responses:
-        201:
-          description: Successfully created an invite token
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InviteToken"
-        400:
-          description: Malformed Request
-        401:
-          description: Unauthorized
-        404:
-          description: No project found
+  /projects/sharing:
     post:
       tags:
         - projects
@@ -293,9 +267,39 @@ paths:
           description: Malformed Request
         401:
           description: Unauthorized
+        403:
+          description: No access to the resource 
         404:
           description: No project found
-  /projects/{projectId}/metadata:
+  /projects/{projectId}/sharing:
+    parameters:
+      - in: path
+        name: projectId
+        schema:
+          type: integer
+        required: true:
+    put:
+      tags:
+        - projects
+        - collaboration
+      summary: Creates an invite token for project sharing
+      security:
+        - user_id: []
+      description: Creates a valid invite token
+      responses:
+        201:
+          description: Successfully created an invite token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InviteToken"
+        400:
+          description: Malformed Request
+        401:
+          description: Unauthorized
+        404:
+          description: No project found
+    /projects/{projectId}/metadata:
     put:
       tags:
         - projects
@@ -456,9 +460,9 @@ components:
       type: object
       properties:
         token:
-          type: integer
-          format: int64
-          example: 128372874
+          type: string
+          format: token
+          example: aBdedeXFgsd
     Credentials:
       type: object
       properties:
