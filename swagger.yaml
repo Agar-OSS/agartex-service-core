@@ -259,7 +259,7 @@ paths:
         - collaboration
       summary: Adds user to a collaboration list for a particular project
       security:
-        - user_id: []
+        - session_id: []
       description: Adds users to a collaboration list if the token is not expired
       responses:
         201:
@@ -283,7 +283,7 @@ paths:
         - collaboration
       summary: Creates an invite token for project sharing
       security:
-        - user_id: []
+        - session_id: []
       description: Creates a valid invite token
       responses:
         201:
@@ -307,6 +307,28 @@ paths:
         schema:
           type: integer
         required: true
+    get:
+      tags:
+        - projects
+      summary: Gets metadata of a project
+      security:
+        - session_id: []
+      description: Gets the metadata of the project with the specified ID
+      responses:
+        200:
+          description: Project retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project" 
+        400:
+          description: Malformed Request
+        401:
+          description: Unauthorized
+        404:
+          description: Project not found
+        422:
+          description: Missing parameters
     put:
       tags:
         - projects
@@ -377,7 +399,7 @@ paths:
         - projects
       summary: Gets metadata of resources in project
       security:
-        - user_id: []
+        - session_id: []
       description: Returns a list of metadata of all the resources in the given project
       responses:
         200:
@@ -400,7 +422,7 @@ paths:
         - projects
       summary: Creates new resource in project
       security:
-        - user_id: []
+        - session_id: []
       requestBody:
         content:
           application/json:
@@ -442,7 +464,7 @@ paths:
         - projects
       summary: Updates resource content in project
       security:
-        - user_id: []
+        - session_id: []
       requestBody:
         content:
           image/*:
